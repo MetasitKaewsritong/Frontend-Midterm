@@ -677,6 +677,27 @@
       // ทดสอบฟังก์ชัน
       console.log("=== handleCalculate พร้อมใช้งาน ===");
       console.log("กรอกข้อมูลในฟอร์มแล้วกดปุ่ม Calculate เพื่อทดสอบ");
+
+      // ========================================
+      // 2.8 Clear Form Button (5 คะแนน)
+      // ========================================
+      function handleClear() {
+        // 1. Clear ทุก input fields
+        document.getElementById("student-name").value = "";
+        document.getElementById("subject-name").value = "";
+        document.getElementById("midterm-score").value = "";
+        document.getElementById("final-score").value = "";
+        document.getElementById("assignment-score").value = "";
+
+        // 2. ซ่อน result section
+        document.getElementById("result-container").style.display = "none";
+
+        console.log("✅ ล้างฟอร์มสำเร็จ!");
+      }
+
+      // ทดสอบฟังก์ชัน
+      console.log("=== handleClear พร้อมใช้งาน ===");
+      console.log("กดปุ่ม Clear เพื่อล้างฟอร์ม");
     </script>
   </body>
 </html>
