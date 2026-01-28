@@ -522,6 +522,44 @@
       console.log("getStatus('D'):", getStatus("D")); // PASS
       console.log("getStatus('F'):", getStatus("F")); // FAIL
       console.log("============================");
+
+      // ========================================
+      // 2.5 Save to LocalStorage (10 คะแนน)
+      // ========================================
+      function saveToStorage(data) {
+        // 1. โหลดข้อมูลเก่าจาก localStorage
+        let existingData = loadFromStorage();
+
+        // 2. ถ้าไม่มีข้อมูลเก่า ให้สร้าง array ใหม่
+        if (existingData === null) {
+          existingData = [];
+        }
+
+        // 3. เพิ่มข้อมูลใหม่เข้าไปใน array
+        existingData.push(data);
+
+        // 4. แปลง array เป็น string ด้วย JSON.stringify
+        const jsonString = JSON.stringify(existingData);
+
+        // 5. บันทึกลง localStorage
+        localStorage.setItem("studentData", jsonString);
+      }
+
+      // ทดสอบฟังก์ชัน
+      console.log("=== ทดสอบ saveToStorage ===");
+      const testData = {
+        name: "John",
+        subject: "JavaScript",
+        midterm: 80,
+        final: 90,
+        assignment: 70,
+        score: 82,
+        grade: "B",
+        status: "PASS",
+      };
+      saveToStorage(testData);
+      console.log("บันทึกข้อมูลสำเร็จ! ตรวจสอบใน localStorage");
+      console.log("============================");
     </script>
   </body>
 </html>
