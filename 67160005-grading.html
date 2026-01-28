@@ -698,6 +698,25 @@
       // ทดสอบฟังก์ชัน
       console.log("=== handleClear พร้อมใช้งาน ===");
       console.log("กดปุ่ม Clear เพื่อล้างฟอร์ม");
+
+      // ========================================
+      // 2.9 Auto-load on Page Load (5 คะแนน)
+      // ========================================
+      window.addEventListener("DOMContentLoaded", function () {
+        console.log("=== Page Loaded! ===");
+        console.log("โหลดข้อมูลจาก localStorage...");
+
+        // โหลดและแสดงข้อมูลในตาราง (ถ้ามี)
+        const savedData = loadFromStorage();
+        if (savedData !== null) {
+          console.log("✅ พบข้อมูล", savedData.length, "รายการ");
+          console.log("ข้อมูล:", savedData);
+        } else {
+          console.log("ℹ️ ยังไม่มีข้อมูลใน localStorage");
+        }
+
+        console.log("=====================");
+      });
     </script>
   </body>
 </html>
