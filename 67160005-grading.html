@@ -406,6 +406,42 @@
        ======================================== -->
     <script>
       // ส่วนนี้จะเพิ่ม JavaScript ในตอนที่ 2
+
+      // ========================================
+      // 2.1 Input Validation (10 คะแนน)
+      // ========================================
+      function validateScore(score) {
+        // ตรวจสอบว่าว่างหรือไม่
+        if (score === "" || score === null || score === undefined) {
+          return false;
+        }
+
+        // แปลงเป็นตัวเลข
+        const numScore = Number(score);
+
+        // ตรวจสอบว่าเป็นตัวเลขหรือไม่
+        if (isNaN(numScore)) {
+          return false;
+        }
+
+        // ตรวจสอบช่วง 0-100
+        if (numScore < 0 || numScore > 100) {
+          return false;
+        }
+
+        return true;
+      }
+
+      // ทดสอบฟังก์ชัน
+      console.log("=== ทดสอบ validateScore ===");
+      console.log("validateScore(85):", validateScore(85)); // true
+      console.log("validateScore('85'):", validateScore("85")); // true
+      console.log("validateScore('abc'):", validateScore("abc")); // false
+      console.log("validateScore(-5):", validateScore(-5)); // false
+      console.log("validateScore(105):", validateScore(105)); // false
+      console.log("validateScore(''):", validateScore("")); // false
+      console.log("============================");
+
       console.log("HTML+CSS โหลดสำเร็จ!");
       console.log("พร้อมสำหรับตอนที่ 2 - การเขียน JavaScript");
     </script>
