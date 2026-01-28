@@ -499,6 +499,29 @@
       console.log("getGrade(80):", getGrade(80)); // A (ขอบเขตล่าง)
       console.log("getGrade(79):", getGrade(79)); // B (ขอบเขตบน)
       console.log("============================");
+
+      // ========================================
+      // 2.4 PASS/FAIL Status (5 คะแนน)
+      // ========================================
+      function getStatus(grade) {
+        // grade = F → FAIL
+        // grade A-D → PASS
+
+        if (grade === "F") {
+          return "FAIL";
+        } else {
+          return "PASS";
+        }
+      }
+
+      // ทดสอบฟังก์ชัน
+      console.log("=== ทดสอบ getStatus ===");
+      console.log("getStatus('A'):", getStatus("A")); // PASS
+      console.log("getStatus('B'):", getStatus("B")); // PASS
+      console.log("getStatus('C'):", getStatus("C")); // PASS
+      console.log("getStatus('D'):", getStatus("D")); // PASS
+      console.log("getStatus('F'):", getStatus("F")); // FAIL
+      console.log("============================");
     </script>
   </body>
 </html>
