@@ -588,6 +588,95 @@
         console.log("ข้อมูลที่โหลดได้:", loadedData);
       }
       console.log("============================");
+
+      // ========================================
+      // 2.7 Main Handler - Calculate Button Click (15 คะแนน)
+      // ========================================
+      function handleCalculate() {
+        // 1. Get values จาก input fields
+        const studentName = document
+          .getElementById("student-name")
+          .value.trim();
+        const subjectName = document
+          .getElementById("subject-name")
+          .value.trim();
+        const midtermScore = document.getElementById("midterm-score").value;
+        const finalScore = document.getElementById("final-score").value;
+        const assignmentScore =
+          document.getElementById("assignment-score").value;
+
+        // 2. Validate input ทั้งหมด
+
+        // ตรวจสอบ name และ subject ไม่ให้ว่าง
+        if (studentName === "" || subjectName === "") {
+          alert("Please enter student name and subject");
+          return;
+        }
+
+        // ตรวจสอบว่าคะแนนเป็นตัวเลขหรือไม่
+        if (
+          isNaN(midtermScore) ||
+          isNaN(finalScore) ||
+          isNaN(assignmentScore)
+        ) {
+          alert("Please enter valid numbers only");
+          return;
+        }
+
+        // ตรวจสอบว่าคะแนนอยู่ในช่วง 0-100 หรือไม่
+        if (
+          !validateScore(midtermScore) ||
+          !validateScore(finalScore) ||
+          !validateScore(assignmentScore)
+        ) {
+          alert("All scores must be between 0-100");
+          return;
+        }
+
+        // 3. Calculate score
+        const midterm = Number(midtermScore);
+        const final = Number(finalScore);
+        const assignment = Number(assignmentScore);
+
+        const totalScore = calculateScore(midterm, final, assignment);
+
+        // 4. Convert score to Letter Grade
+        const grade = getGrade(totalScore);
+
+        // 5. Get status (PASS/FAIL)
+        const status = getStatus(grade);
+
+        // 6. Display results ในส่วน Result Section
+        document.getElementById("total-score").textContent =
+          totalScore.toFixed(2);
+        document.getElementById("final-grade").textContent = grade;
+        document.getElementById("pass-status").textContent = status;
+
+        // แสดง result container
+        document.getElementById("result-container").style.display = "block";
+
+        // 7. เตรียมข้อมูลในรูปแบบ object
+        const studentData = {
+          name: studentName,
+          subject: subjectName,
+          midterm: midterm,
+          final: final,
+          assignment: assignment,
+          score: totalScore,
+          grade: grade,
+          status: status,
+        };
+
+        // 8. Save data to localStorage
+        saveToStorage(studentData);
+
+        // 9. แสดงข้อมูลในตาราง (จะทำใน Part อื่นๆ)
+        console.log("✅ คำนวณและบันทึกข้อมูลสำเร็จ:", studentData);
+      }
+
+      // ทดสอบฟังก์ชัน
+      console.log("=== handleCalculate พร้อมใช้งาน ===");
+      console.log("กรอกข้อมูลในฟอร์มแล้วกดปุ่ม Calculate เพื่อทดสอบ");
     </script>
   </body>
 </html>
