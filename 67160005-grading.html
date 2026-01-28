@@ -405,6 +405,9 @@
        JAVASCRIPT (Part 2 will be added here)
        ======================================== -->
     <script>
+      console.log("HTML+CSS โหลดสำเร็จ!");
+      console.log("พร้อมสำหรับตอนที่ 2 - การเขียน JavaScript");
+
       // ส่วนนี้จะเพิ่ม JavaScript ในตอนที่ 2
 
       // ========================================
@@ -442,8 +445,25 @@
       console.log("validateScore(''):", validateScore("")); // false
       console.log("============================");
 
-      console.log("HTML+CSS โหลดสำเร็จ!");
-      console.log("พร้อมสำหรับตอนที่ 2 - การเขียน JavaScript");
+      // ========================================
+      // 2.2 Calculate Score (10 คะแนน)
+      // ========================================
+      function calculateScore(midterm, final, assignment) {
+        // สูตร: (Midterm × 20%) + (Final × 50%) + (Assignment × 30%)
+        const totalScore = midterm * 0.2 + final * 0.5 + assignment * 0.3;
+
+        return totalScore;
+      }
+
+      // ทดสอบฟังก์ชัน
+      console.log("=== ทดสอบ calculateScore ===");
+      console.log("calculateScore(80, 90, 70):", calculateScore(80, 90, 70)); // 82
+      console.log(
+        "calculateScore(100, 100, 100):",
+        calculateScore(100, 100, 100),
+      ); // 100
+      console.log("calculateScore(50, 60, 70):", calculateScore(50, 60, 70)); // 62
+      console.log("============================");
     </script>
   </body>
 </html>
