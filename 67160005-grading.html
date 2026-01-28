@@ -560,6 +560,34 @@
       saveToStorage(testData);
       console.log("บันทึกข้อมูลสำเร็จ! ตรวจสอบใน localStorage");
       console.log("============================");
+
+      // ========================================
+      // 2.6 Load from Browser Storage (5 คะแนน)
+      // ========================================
+      function loadFromStorage() {
+        // 1. ดึงข้อมูลจาก localStorage
+        const jsonString = localStorage.getItem("studentData");
+
+        // 2. ถ้าไม่มีข้อมูล ให้ return null
+        if (jsonString === null) {
+          return null;
+        }
+
+        // 3. แปลง string กลับเป็น array ด้วย JSON.parse
+        const data = JSON.parse(jsonString);
+
+        return data;
+      }
+
+      // ทดสอบฟังก์ชัน
+      console.log("=== ทดสอบ loadFromStorage ===");
+      const loadedData = loadFromStorage();
+      if (loadedData === null) {
+        console.log("ไม่มีข้อมูลใน localStorage");
+      } else {
+        console.log("ข้อมูลที่โหลดได้:", loadedData);
+      }
+      console.log("============================");
     </script>
   </body>
 </html>
