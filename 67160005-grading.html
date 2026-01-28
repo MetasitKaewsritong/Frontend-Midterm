@@ -590,6 +590,55 @@
       console.log("============================");
 
       // ========================================
+      // ฟังก์ชันช่วยแสดงข้อมูลในตาราง
+      // ========================================
+      function displayTableData() {
+        // โหลดข้อมูลจาก localStorage
+        const data = loadFromStorage();
+
+        // อ้างอิง tbody ของตาราง
+        const tableBody = document.getElementById("results-table-body");
+
+        // ถ้าไม่มีข้อมูล แสดงข้อความว่าไม่มีข้อมูล
+        if (data === null || data.length === 0) {
+          tableBody.innerHTML = `
+      <tr>
+        <td colspan="5" class="empty-message">
+          ยังไม่มีข้อมูล - กรุณากรอกข้อมูลและกดปุ่ม Calculate เพื่อคำนวณเกรด
+        </td>
+      </tr>
+    `;
+          return;
+        }
+
+        // ถ้ามีข้อมูล ให้แสดงในตาราง
+        let tableHTML = "";
+
+        // วนลูปแสดงข้อมูลทุกรายการ
+        data.forEach((item) => {
+          // กำหนด CSS class สำหรับเกรด
+          const gradeClass = `grade-${item.grade.toLowerCase()}`;
+
+          // กำหนด CSS class สำหรับสถานะ
+          const statusClass =
+            item.status === "PASS" ? "status-pass" : "status-fail";
+
+          tableHTML += `
+      <tr>
+        <td>${item.name}</td>
+        <td>${item.subject}</td>
+        <td>${item.score.toFixed(2)}</td>
+        <td><span class="grade-badge ${gradeClass}">${item.grade}</span></td>
+        <td><span class="${statusClass}">${item.status}</span></td>
+      </tr>
+    `;
+        });
+
+        // แสดงผลใน table body
+        tableBody.innerHTML = tableHTML;
+      }
+
+      // ========================================
       // 2.7 Main Handler - Calculate Button Click (15 คะแนน)
       // ========================================
       function handleCalculate() {
@@ -671,6 +720,7 @@
         saveToStorage(studentData);
 
         // 9. แสดงข้อมูลในตาราง (จะทำใน Part อื่นๆ)
+        displayTableData();
         console.log("✅ คำนวณและบันทึกข้อมูลสำเร็จ:", studentData);
       }
 
@@ -706,17 +756,37 @@
         console.log("=== Page Loaded! ===");
         console.log("โหลดข้อมูลจาก localStorage...");
 
-        // โหลดและแสดงข้อมูลในตาราง (ถ้ามี)
+        // โหลดและแสดงข้อมูลในตาราง
+        displayTableData();
+
         const savedData = loadFromStorage();
         if (savedData !== null) {
           console.log("✅ พบข้อมูล", savedData.length, "รายการ");
-          console.log("ข้อมูล:", savedData);
         } else {
           console.log("ℹ️ ยังไม่มีข้อมูลใน localStorage");
         }
 
         console.log("=====================");
       });
+
+      // ========================================
+      // 2.10 กำหนด Event Listener ให้กับปุ่ม (5 คะแนน)
+      // ========================================
+
+      // กำหนด event listener ให้ปุ่ม Calculate
+      document
+        .getElementById("btn-calculate")
+        .addEventListener("click", handleCalculate);
+
+      // กำหนด event listener ให้ปุ่ม Clear
+      document
+        .getElementById("btn-clear")
+        .addEventListener("click", handleClear);
+
+      console.log("=== Event Listeners ถูกเชื่อมแล้ว ===");
+      console.log("✅ ปุ่ม Calculate พร้อมใช้งาน");
+      console.log("✅ ปุ่ม Clear พร้อมใช้งาน");
+      console.log("====================================");
     </script>
   </body>
 </html>
