@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Grade Calculator</title>
+    <style>
+      /* ========================================
+       CSS RESET & BASE STYLES
+       ======================================== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        min-height: 100vh;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      /* ========================================
+       1. FLEXBOX LAYOUT - Main Container
+       Container หลัก: display: flex; flex-direction: column;
+       ======================================== */
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 30px;
+        /* Flexbox สำหรับจัดเรียงแนวตั้ง */
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      /* ========================================
+       HEADER SECTION
+       ======================================== */
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 24px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      /* ========================================
+       FORM SECTION
+       ======================================== */
+      .form-section {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      /* ========================================
+       1. FLEXBOX LAYOUT - Input Rows
+       Input rows: align label และ input โดยใช้ flexbox
+       ======================================== */
+      .input-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .input-row label {
+        min-width: 180px;
+        font-weight: 600;
+        color: #333;
+        font-size: 14px;
+      }
+
+      /* ========================================
+       2. INPUT STYLING
+       - Border: 2px solid
+       - Padding: 10px
+       - Border-radius: 5px
+       - เมื่อได้รับ Focus: background-color เปลี่ยน, border-color เปลี่ยน
+       ======================================== */
+      .input-row input {
+        flex: 1;
+        padding: 10px; /* Padding: 10px */
+        border: 2px solid #ddd; /* Border: 2px solid */
+        border-radius: 5px; /* Border-radius: 5px */
+        font-size: 14px;
+      }
+
+      /* Input Focus State - เปลี่ยน background-color และ border-color */
+      .input-row input:focus {
+        outline: none;
+        background-color: #f0f8ff; /* เปลี่ยน background-color */
+        border-color: #3498db; /* เปลี่ยน border-color */
+      }
+
+      /* ========================================
+       1. FLEXBOX LAYOUT - Button Group
+       Button group: justify-content space-between
+       ======================================== */
+      .button-group {
+        display: flex;
+        justify-content: space-between; /* space-between */
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      /* ========================================
+       3. BUTTON STYLING
+       - Primary button (#calculate): สีน้ำเงิน ขาว text
+       - Secondary button (#clear): สีเทา ขาว text
+       ======================================== */
+      button {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        flex: 1;
+      }
+
+      /* Primary button - สีน้ำเงิน ขาว text */
+      #btn-calculate {
+        background-color: #3498db; /* สีน้ำเงิน */
+        color: white; /* ขาว text */
+      }
+
+      #btn-calculate:hover {
+        background-color: #2980b9;
+      }
+
+      #btn-calculate:active {
+        background-color: #21618c;
+      }
+
+      /* Secondary button - สีเทา ขาว text */
+      #btn-clear {
+        background-color: #95a5a6; /* สีเทา */
+        color: white; /* ขาว text */
+      }
+
+      #btn-clear:hover {
+        background-color: #7f8c8d;
+      }
+
+      #btn-clear:active {
+        background-color: #5d6d7e;
+      }
+
+      /* ========================================
+       4. RESULT BOX
+       - ซ่อนตั้งแต่เริ่ม (display: none;)
+       - พื้นหลังสีอ่อน (เหลือง/เขียว)
+       - Border-left 4px สีเข้ม
+       - Padding: 15px
+       - Border-radius: 8px
+       ======================================== */
+      #result-container {
+        display: none; /* ซ่อนตั้งแต่เริ่ม */
+        background-color: #fffbea; /* พื้นหลังสีอ่อน (เหลืองอ่อน) */
+        border-left: 4px solid #f39c12; /* Border-left 4px สีเข้ม */
+        padding: 15px; /* Padding: 15px */
+        border-radius: 8px; /* Border-radius: 8px */
+        margin-top: 20px;
+      }
+
+      #result-container p {
+        margin: 8px 0;
+        font-size: 16px;
+        color: #333;
+      }
+
+      #result-container span {
+        font-weight: bold;
+        color: #333;
+        font-size: 16px;
+      }
+
+      /* ========================================
+       TABLE SECTION - สำหรับแสดงผลลัพธ์
+       ======================================== */
+      .table-section {
+        margin-top: 30px;
+      }
+
+      .table-section h2 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border: 1px solid #ddd;
+      }
+
+      table thead {
+        background-color: #3498db;
+        color: white;
+      }
+
+      table th {
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        color: #555;
+      }
+
+      table tbody tr:hover {
+        background-color: #f8f9fa;
+      }
+
+      table tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      /* Grade Badge Styling */
+      .grade-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 13px;
+      }
+
+      .grade-a {
+        background-color: #27ae60;
+        color: white;
+      }
+      .grade-b {
+        background-color: #3498db;
+        color: white;
+      }
+      .grade-c {
+        background-color: #f39c12;
+        color: white;
+      }
+      .grade-d {
+        background-color: #e67e22;
+        color: white;
+      }
+      .grade-f {
+        background-color: #e74c3c;
+        color: white;
+      }
+
+      /* Status Badge Styling */
+      .status-pass {
+        color: #27ae60;
+        font-weight: bold;
+      }
+
+      .status-fail {
+        color: #c0392b;
+        font-weight: bold;
+      }
+
+      /* Empty state message */
+      .empty-message {
+        text-align: center;
+        padding: 30px;
+        color: #999;
+        font-style: italic;
+      }
+
+      /* ========================================
+       RESPONSIVE DESIGN
+       ======================================== */
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px;
+        }
+
+        .input-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .input-row label {
+          min-width: auto;
+          margin-bottom: 5px;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- ========================================
+         HEADER SECTION
+         ======================================== -->
+      <div>
+        <h1>Student Grade Calculator</h1>
+        <p class="subtitle">
+          คำนวณเกรดนักเรียนจากคะแนน Midterm, Final, และ Assignment
+        </p>
+      </div>
+
+      <!-- ========================================
+         FORM SECTION
+         ======================================== -->
+      <div class="form-section">
+        <!-- Student Name Input -->
+        <div class="input-row">
+          <label for="student-name">ชื่อนักเรียน:</label>
+          <input type="text" id="student-name" placeholder="กรอกชื่อนักเรียน" />
+        </div>
+
+        <!-- Subject Name Input -->
+        <div class="input-row">
+          <label for="subject-name">รายวิชา:</label>
+          <input type="text" id="subject-name" placeholder="กรอกชื่อวิชา" />
+        </div>
+
+        <!-- Midterm Score Input -->
+        <div class="input-row">
+          <label for="midterm-score">คะแนน Midterm (20%):</label>
+          <input type="text" id="midterm-score" placeholder="0-100" />
+        </div>
+
+        <!-- Final Score Input -->
+        <div class="input-row">
+          <label for="final-score">คะแนน Final (50%):</label>
+          <input type="text" id="final-score" placeholder="0-100" />
+        </div>
+
+        <!-- Assignment Score Input -->
+        <div class="input-row">
+          <label for="assignment-score">คะแนน Assignment (30%):</label>
+          <input type="text" id="assignment-score" placeholder="0-100" />
+        </div>
+
+        <!-- Button Group -->
+        <div class="button-group">
+          <button id="btn-calculate">Calculate Grade</button>
+          <button id="btn-clear">Clear</button>
+        </div>
+      </div>
+
+      <!-- ========================================
+         RESULT CONTAINER (ซ่อนไว้ตั้งแต่แรก)
+         ======================================== -->
+      <div id="result-container" style="display: none">
+        <p>Total Score: <span id="total-score">0</span></p>
+        <p>Final Grade: <span id="final-grade">-</span></p>
+        <p>Status: <span id="pass-status">-</span></p>
+      </div>
+
+      <!-- ========================================
+         TABLE SECTION - แสดงประวัติการคำนวณ
+         ======================================== -->
+      <div class="table-section">
+        <h2>ประวัติการคำนวณเกรด</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ชื่อ</th>
+              <th>รายวิชา</th>
+              <th>คะแนนรวม</th>
+              <th>เกรด</th>
+              <th>สถานะ</th>
+            </tr>
+          </thead>
+          <tbody id="results-table-body">
+            <tr>
+              <td colspan="5" class="empty-message">
+                ยังไม่มีข้อมูล - กรุณากรอกข้อมูลและกดปุ่ม Calculate
+                เพื่อคำนวณเกรด
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ========================================
+       JAVASCRIPT (Part 2 will be added here)
+       ======================================== -->
+    <script>
+      // ส่วนนี้จะเพิ่ม JavaScript ในตอนที่ 2
+      console.log("HTML+CSS โหลดสำเร็จ!");
+      console.log("พร้อมสำหรับตอนที่ 2 - การเขียน JavaScript");
+    </script>
+  </body>
+</html>
